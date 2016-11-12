@@ -1,6 +1,6 @@
 {
   "name": "stonebraker",
-  "description": "Tool for TFS, for crunching data abot tasks",
+  "description": "Tool for project tracking, for crunching data abot tasks",
   "version": "0.0.1",
   "license": "GPL",
   "author": "Francisc José Fuentes Rodríguez",
