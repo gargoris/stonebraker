@@ -2,8 +2,8 @@
   "name": "stonebraker",
   "description": "Tool for project tracking, for crunching data abot tasks",
   "version": "0.0.1",
-  "license": "GPL",
-  "author": "Francisc José Fuentes Rodríguez",
+  "license": "GPL-3.0",
+  "author": "Francisco José Fuentes Rodríguez",
   "repository": {
     "type": "git",
     "url": "https://github.com/gargoris/stonebraker"
@@ -34,5 +34,8 @@
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1",
     "webpack-merge": "^0.14.1"
+  },
+  "dependencies": {
+    "pouchdb-browser": ">=6.0.0"
   }
 }

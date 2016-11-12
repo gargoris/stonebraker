@@ -52,22 +52,22 @@ type alias DataRepo =
     }
 
 
-initDataRepo : DataRepo
-initDataRepo =
-    DataRepo "Remote repository not configured yet" "" "Not configured"
-
-
 {-| The model, with all its bells and whistlers
 -}
 type alias Model =
-    { remoteRepo : DataRepo
+    { remoteDatabase : Maybe DataRepo
     , projects : List Project
     }
 
 
+initModel : Model
+initModel =
+    Model Nothing []
+
+
 init : ( Model, Cmd Msg )
 init =
-    ( Model initDataRepo [], Cmd.none )
+    ( initModel, Cmd.none )
 
 
 
@@ -85,12 +85,17 @@ type Msg
 view : Model -> Html Msg
 view model =
     div []
-        [ showRepo model.remoteRepo, showTree model.projects ]
+        [ showRepo model.remoteDatabase, showTree model.projects ]
 
 
-showRepo : DataRepo -> Html Msg
+showRepo : Maybe DataRepo -> Html Msg
 showRepo repo =
-    div [] [ h1 [] [ text repo.name ], p [] [ text repo.url ] ]
+    case repo of
+        Just m ->
+            div [] [ h1 [] [ text m.name ], p [] [ text m.url ] ]
+
+        Nothing ->
+            div [] [ h1 [] [ text "Repository not configured" ], p [] [ text "Empty url" ] ]
 
 
 showTree : List Project -> Html Msg
