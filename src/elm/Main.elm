@@ -1,6 +1,8 @@
 module Main exposing (..)
 
 import Html exposing (..)
+import Html.Attributes exposing (action, class, id, disabled, name, placeholder, property, required, size, src, style, type', value)
+import Html.Events exposing (on, onInput, onClick, onSubmit, targetValue)
 import Html.App
 
 
@@ -76,6 +78,7 @@ init =
 
 type Msg
     = NoOp
+    | NewRepo
 
 
 
@@ -84,8 +87,12 @@ type Msg
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ showRepo model.remoteDatabase, showTree model.projects ]
+    let
+        t =
+            showRepo model.remoteDatabase
+    in
+        div []
+            [ t, showTree model.projects ]
 
 
 showRepo : Maybe DataRepo -> Html Msg
@@ -95,7 +102,65 @@ showRepo repo =
             div [] [ h1 [] [ text m.name ], p [] [ text m.url ] ]
 
         Nothing ->
-            div [] [ h1 [] [ text "Repository not configured" ], p [] [ text "Empty url" ] ]
+            form
+                [ action "javascript:void(0);"
+                , onSubmit NewRepo
+                ]
+                [ h2 [] [ text "New repo" ]
+                , div [ class "input-group" ]
+                    [ div
+                        [ class "input-group" ]
+                        [ span
+                            [ class "input-group-addon" ]
+                            [ i [ class "glyphicon glyphicon-link" ] [] ]
+                        , input
+                            [ type' "text"
+                            , class "form-control"
+                            , placeholder "Url"
+                            , size 40
+                            , required True
+                            ]
+                            []
+                        ]
+                    , div
+                        [ class "input-group" ]
+                        [ span
+                            [ class "input-group-addon" ]
+                            [ i [ class "glyphicon glyphicon-user" ] [] ]
+                        , input
+                            [ type' "text"
+                            , class "form-control"
+                            , placeholder "User"
+                            , size 40
+                            , required True
+                            ]
+                            []
+                        ]
+                    , div
+                        [ class "input-group" ]
+                        [ span
+                            [ class "input-group-addon" ]
+                            [ i [ class "glyphicon glyphicon-asterisk" ] [] ]
+                        , input
+                            [ type' "password"
+                            , class "form-control"
+                            , placeholder "Password"
+                            , size 40
+                            , required True
+                            ]
+                            []
+                        ]
+                    , div
+                        [ class "col-md-3 col-md-offset-9" ]
+                        [ button
+                            [ type' "submit"
+                            , class "btn btn-primary"
+                            , required True
+                            ]
+                            [ text "Send" ]
+                        ]
+                    ]
+                ]
 
 
 showTree : List Project -> Html Msg
@@ -111,6 +176,9 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         NoOp ->
+            ( model, Cmd.none )
+
+        NewRepo ->
             ( model, Cmd.none )
 
 
