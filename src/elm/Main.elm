@@ -1,9 +1,8 @@
 module Main exposing (..)
 
 import Html exposing (..)
-import Html.Attributes exposing (action, class, id, disabled, name, placeholder, property, required, size, src, style, type', value)
+import Html.Attributes exposing (action, class, id, disabled, name, placeholder, property, required, size, src, style, type_, value)
 import Html.Events exposing (on, onInput, onClick, onSubmit, targetValue)
-import Html.App
 
 
 -- MODEL
@@ -114,7 +113,7 @@ showRepo repo =
                             [ class "input-group-addon" ]
                             [ i [ class "glyphicon glyphicon-link" ] [] ]
                         , input
-                            [ type' "text"
+                            [ type_ "text"
                             , class "form-control"
                             , placeholder "Url"
                             , size 40
@@ -128,7 +127,7 @@ showRepo repo =
                             [ class "input-group-addon" ]
                             [ i [ class "glyphicon glyphicon-user" ] [] ]
                         , input
-                            [ type' "text"
+                            [ type_ "text"
                             , class "form-control"
                             , placeholder "User"
                             , size 40
@@ -142,7 +141,7 @@ showRepo repo =
                             [ class "input-group-addon" ]
                             [ i [ class "glyphicon glyphicon-asterisk" ] [] ]
                         , input
-                            [ type' "password"
+                            [ type_ "password"
                             , class "form-control"
                             , placeholder "Password"
                             , size 40
@@ -153,7 +152,7 @@ showRepo repo =
                     , div
                         [ class "col-md-3 col-md-offset-9" ]
                         [ button
-                            [ type' "submit"
+                            [ type_ "submit"
                             , class "btn btn-primary"
                             , required True
                             ]
@@ -195,9 +194,9 @@ subscriptions model =
 -- MAIN
 
 
-main : Program Never
+main : Program Never Model Msg
 main =
-    Html.App.program
+    Html.program
         { init = init
         , view = view
         , update = update
