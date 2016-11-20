@@ -10,7 +10,11 @@ import Html.Events exposing (on, onInput, onClick, onSubmit, targetValue)
 showRepo : DataRepo -> Bool -> Html Msg
 showRepo repo cfg =
     if cfg then
-        div [] [ h1 [] [ text repo.name ], p [] [ text repo.url ] ]
+        div [ class "container-fluid" ]
+            [ h1 [ class "col-md-12" ] [ text "Configured repository" ]
+            , div [ class "col-md-12" ] [ p [] [ span [ class "glyphicon glyphicon-link" ] [], text repo.url ] ]
+            , div [ class "col-md-12" ] [ p [ class "glyphicon glyphicon-user" ] [ text repo.name ] ]
+            ]
     else
         form
             [ action "javascript:void(0);"
@@ -24,7 +28,7 @@ showRepo repo cfg =
                         [ class "input-group-addon" ]
                         [ i [ class "glyphicon glyphicon-link" ] [] ]
                     , input
-                        [ type_ "text"
+                        [ type_ "url"
                         , class "form-control md-col md-col-6"
                         , placeholder "Url"
                         , size 40
