@@ -78,6 +78,9 @@ init =
 type Msg
     = NoOp
     | NewRepo
+    | NewUrl String
+    | NewUser String
+    | NewPassword String
 
 
 
@@ -96,70 +99,68 @@ view model =
 
 showRepo : Maybe DataRepo -> Html Msg
 showRepo repo =
-    case repo of
-        Just m ->
-            div [] [ h1 [] [ text m.name ], p [] [ text m.url ] ]
-
-        Nothing ->
-            form
-                [ action "javascript:void(0);"
-                , onSubmit NewRepo
-                ]
-                [ h2 [] [ text "New repo" ]
-                , div [ class "input-group" ]
-                    [ div
-                        [ class "input-group" ]
-                        [ span
-                            [ class "input-group-addon" ]
-                            [ i [ class "glyphicon glyphicon-link" ] [] ]
-                        , input
-                            [ type_ "text"
-                            , class "form-control"
-                            , placeholder "Url"
-                            , size 40
-                            , required True
-                            ]
-                            []
-                        ]
-                    , div
-                        [ class "input-group" ]
-                        [ span
-                            [ class "input-group-addon" ]
-                            [ i [ class "glyphicon glyphicon-user" ] [] ]
-                        , input
-                            [ type_ "text"
-                            , class "form-control"
-                            , placeholder "User"
-                            , size 40
-                            , required True
-                            ]
-                            []
-                        ]
-                    , div
-                        [ class "input-group" ]
-                        [ span
-                            [ class "input-group-addon" ]
-                            [ i [ class "glyphicon glyphicon-asterisk" ] [] ]
-                        , input
-                            [ type_ "password"
-                            , class "form-control"
-                            , placeholder "Password"
-                            , size 40
-                            , required True
-                            ]
-                            []
-                        ]
-                    , div
-                        [ class "col-md-3 col-md-offset-9" ]
-                        [ button
-                            [ type_ "submit"
-                            , class "btn btn-primary"
-                            , required True
-                            ]
-                            [ text "Send" ]
-                        ]
+    form
+        [ action "javascript:void(0);"
+        , onSubmit NewRepo
+        ]
+        [ h2 [] [ text "New repo" ]
+        , div [ class "input-group clearfix" ]
+            [ div
+                [ class "input-group" ]
+                [ span
+                    [ class "input-group-addon" ]
+                    [ i [ class "glyphicon glyphicon-link" ] [] ]
+                , input
+                    [ type_ "text"
+                    , class "form-control md-col md-col-6"
+                    , placeholder "Url"
+                    , size 40
+                    , required True
+                    , onInput NewUrl
                     ]
+                    []
                 ]
+            , div
+                [ class "input-group" ]
+                [ span
+                    [ class "input-group-addon" ]
+                    [ i [ class "glyphicon glyphicon-user" ] [] ]
+                , input
+                    [ type_ "text"
+                    , class "form-control md-col md-col-6"
+                    , placeholder "User"
+                    , size 40
+                    , required True
+                    , onInput NewUser
+                    ]
+                    []
+                ]
+            , div
+                [ class "input-group" ]
+                [ span
+                    [ class "input-group-addon" ]
+                    [ i [ class "glyphicon glyphicon-asterisk" ] [] ]
+                , input
+                    [ type_ "password"
+                    , class "form-control md-col md-col-6"
+                    , placeholder "Password"
+                    , size 40
+                    , required True
+                    , onInput NewPassword
+                    ]
+                    []
+                ]
+            , div
+                [ class "col-md-3 col-md-offset-9" ]
+                [ button
+                    [ type_ "submit"
+                    , class "btn btn-primary  md-col md-col-6"
+                    , required True
+                    ]
+                    [ text "Send" ]
+                ]
+            ]
+        ]
 
 
 showTree : List Project -> Html Msg
@@ -173,12 +174,33 @@ showTree tree =
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    case msg of
-        NoOp ->
-            ( model, Cmd.none )
+    let
+        newBaseModel =
+            case model.remoteDatabase of
+                Just innerMod ->
+                    innerMod
 
-        NewRepo ->
-            ( model, Cmd.none )
+                Nothing ->
+                    DataRepo "" "" ""
+
+        baseList =
+            model.projects
+    in
+        case msg of
+            NoOp ->
+                ( model, Cmd.none )
+
+            NewRepo ->
+                ( model, Cmd.none )
+
+            NewUrl m ->
+                ( (Model (Just { newBaseModel | url = m }) baseList), Cmd.none )
+
+            NewUser m ->
+                ( (Model (Just { newBaseModel | name = m }) baseList), Cmd.none )
+
+            NewPassword m ->
+                ( (Model (Just { newBaseModel | password = m }) baseList), Cmd.none )
 
 
 
