@@ -1,11 +1,10 @@
 module Main exposing (..)
 
 import Html exposing (..)
-import Html.Attributes exposing (action, class, id, disabled, name, placeholder, property, required, size, src, style, type_, value)
-import Html.Events exposing (on, onInput, onClick, onSubmit, targetValue)
 import Database.Messages
 import Database.Models
 import Database.View
+import Database.Update
 
 
 -- MODEL
@@ -86,7 +85,7 @@ view model =
             Database.View.showRepo model.remoteDatabase model.configuredRepo
     in
         div []
-            [ t, showTree model.projects ]
+            [ Html.map DatabaseMsg t, showTree model.projects ]
 
 
 showTree : List Project -> Html Msg
@@ -100,33 +99,19 @@ showTree tree =
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    let
-        newBaseModel =
-            case model.remoteDatabase of
-                Just innerMod ->
-                    innerMod
+    case msg of
+        NoOp ->
+            ( model, Cmd.none )
 
-                Nothing ->
-                    DataRepo "" "" ""
+        DatabaseMsg (Database.Messages.NewRepo) ->
+            ( { model | configuredRepo = True }, Cmd.none )
 
-        baseList =
-            model.projects
-    in
-        case msg of
-            NoOp ->
-                ( model, Cmd.none )
-
-            DatabaseMsg submsg ->
-                ( model, Cmd.none )
-
-            NewUrl m ->
-                ( (Model (Just { newBaseModel | url = m }) baseList), Cmd.none )
-
-            NewUser m ->
-                ( (Model (Just { newBaseModel | name = m }) baseList), Cmd.none )
-
-            NewPassword m ->
-                ( (Model (Just { newBaseModel | password = m }) baseList), Cmd.none )
+        DatabaseMsg submsg ->
+            let
+                ( repoT, msgT ) =
+                    Database.Update.update submsg model.remoteDatabase
+            in
+                ( { model | remoteDatabase = repoT }, Cmd.map DatabaseMsg msgT )
 
 
 
