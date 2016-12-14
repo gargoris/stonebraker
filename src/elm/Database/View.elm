@@ -59,16 +59,16 @@ showRepo repo cfg =
                         [ class "input-group-addon" ]
                         [ i [ class "glyphicon glyphicon-link" ] [] ]
                     , input
-                        [ type_ "url"
+                        [ type_ "text"
                         , class "form-control md-col md-col-6"
-                        , placeholder "Url"
+                        , placeholder "Collection"
                         , size 40
                         , required True
-                        , onInput NewUrl
+                        , onInput NewCollection
                         ]
                         []
-                        ]
-              , div
+                    ]
+                , div
                     [ class "input-group" ]
                     [ span
                         [ class "input-group-addon" ]

@@ -28,3 +28,6 @@ update msg model =
 
         NewPassword pss ->
             ( { model | password = pss }, Cmd.none )
+
+        NewCollection col ->
+            ( { model | collection = col }, Cmd.none )

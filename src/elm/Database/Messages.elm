@@ -15,3 +15,4 @@ type Msg
     | NewUrl String
     | NewUser String
     | NewPassword String
+    | NewCollection String
