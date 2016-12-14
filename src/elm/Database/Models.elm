@@ -14,9 +14,10 @@ type alias DataRepo =
     { name : String
     , password : String
     , url : String
+    , collection : String
     }
 
 
 initModel : DataRepo
 initModel =
-    DataRepo "" "" ""
+    DataRepo "" "" "" ""
