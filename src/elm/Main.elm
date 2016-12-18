@@ -5,7 +5,6 @@ import Database.Messages exposing (..)
 import Database.Models
 import Database.View
 import Database.Update
-import Native.MyModule
 
 
 -- MODEL

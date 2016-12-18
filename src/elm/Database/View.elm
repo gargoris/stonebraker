@@ -37,22 +37,23 @@ showRepo repo cfg =
                         ]
                         []
                     ]
-              , div [ class "input-group clearfix" ]
-                  [ div
-                      [ class "input-group" ]
-                      [ span
-                          [ class "input-group-addon" ]
-                          [ i [ class "glyphicon glyphicon-link" ] [] ]
-                      , input
-                          [ type_ "url"
-                          , class "form-control md-col md-col-6"
-                          , placeholder "Url"
-                          , size 40
-                          , required True
-                          , onInput NewUrl
-                          ]
-                          []
-                          ]
+                ]
+            , div [ class "input-group clearfix" ]
+                [ div
+                    [ class "input-group" ]
+                    [ span
+                        [ class "input-group-addon" ]
+                        [ i [ class "glyphicon glyphicon-link" ] [] ]
+                    , input
+                        [ type_ "url"
+                        , class "form-control md-col md-col-6"
+                        , placeholder "Url"
+                        , size 40
+                        , required True
+                        , onInput NewUrl
+                        ]
+                        []
+                    ]
                 , div
                     [ class "input-group" ]
                     [ span
