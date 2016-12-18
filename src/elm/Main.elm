@@ -6,7 +6,6 @@ import Database.Models
 import Database.View
 import Database.Update
 import Native.MyModule
-import Pouchdb exposing (..)
 
 
 -- MODEL
@@ -54,13 +53,12 @@ type alias Model =
     { remoteDatabase : Database.Models.DataRepo
     , configuredRepo : Bool
     , projects : List Project
-    , dbRemoteLocal : Pouchdb
     }
 
 
 initModel : Model
 initModel =
-    Model Database.Models.initModel False [] (db "DB-Test" dbOptions)
+    Model Database.Models.initModel False []
 
 
 init : ( Model, Cmd Msg )
