@@ -1,10 +1,24 @@
 module Database.Models exposing (..)
 
+import Pouchdb exposing (Pouchdb, auth, ajaxCache, dbOptions, db)
+import Change exposing (..)
+import Replicate exposing (..)
+
+
 {-|
  Models for database definition => config, inner workings, etc.
 -}
 
+
+
 -- DEFINITIONS
+
+
+type alias DataModel =
+    { remoteRepo : DataRepo
+    , projects : List Project
+    , localDatabase : Pouchdb
+    }
 
 
 {-|
@@ -40,6 +54,11 @@ type alias Sftprojs =
     {}
 
 
-initModel : DataRepo
+initModel : DataModel
 initModel =
-    DataRepo "" "" "" ""
+    DataModel (DataRepo "" "" "" "") [] checkDB
+
+
+checkDB : Pouchdb
+checkDB =
+    db "Stonebreaker" (dbOptions)

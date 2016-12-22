@@ -2,62 +2,25 @@ module Main exposing (..)
 
 import Html exposing (..)
 import Database.Messages exposing (..)
-import Database.Models
-import Database.View
-import Database.Update
+import Database.Models exposing (..)
+import Database.View exposing (..)
+import Database.Update exposing (..)
 
 
 -- MODEL
 
 
-{-|
-  A Node of data
--}
-type alias Node a =
-    { id : String
-    , name : String
-    , selected : Bool
-    , children : List a
-    }
-
-
-{-|
-  Leaf with version
--}
-type alias VersionedLeaf =
-    { id : String
-    , name : String
-    , version : Int
-    , selected : Bool
-    }
-
-
-{-|
-  A sprint is a list of 'VersionedLeaf's [of task type]
--}
-type alias Sprint =
-    Node VersionedLeaf
-
-
-{-|
-  A project is a list of sprints
--}
-type alias Project =
-    Node Sprint
-
-
 {-| The model, with all its bells and whistlers
 -}
 type alias Model =
-    { remoteDatabase : Database.Models.DataRepo
+    { remoteDatabase : DataModel
     , configuredRepo : Bool
-    , projects : List Project
     }
 
 
 initModel : Model
 initModel =
-    Model Database.Models.initModel False []
+    Model Database.Models.initModel False
 
 
 init : ( Model, Cmd Msg )
@@ -85,12 +48,7 @@ view model =
             Database.View.showRepo model.remoteDatabase model.configuredRepo
     in
         div []
-            [ Html.map DatabaseMsg t, showTree model.projects ]
-
-
-showTree : List Project -> Html Msg
-showTree tree =
-    div [] []
+            [ Html.map DatabaseMsg t, showTree model.remoteDatabase.projects ]
 
 
 
