@@ -48,7 +48,7 @@ view model =
             Database.View.showRepo model.remoteDatabase model.configuredRepo
     in
         div []
-            [ Html.map DatabaseMsg t, showTree model.remoteDatabase.projects ]
+            [ Html.map DatabaseMsg t, Html.map DatabaseMsg (showTree model.remoteDatabase.projects) ]
 
 
 

@@ -17,20 +17,27 @@ import Database.Models exposing (..)
 {-|
     Main update function
 -}
-update : Msg -> DataRepo -> ( DataRepo, Cmd Msg )
-update msg model =
-    case msg of
-        NewRepo ->
-            ( model, Cmd.none )
+update : Msg -> DataModel -> ( DataModel, Cmd Msg )
+update msg bigMoodel =
+    let
+        model =
+            bigMoodel.remoteRepo
 
-        NewUrl url ->
-            ( { model | url = url }, Cmd.none )
+        inmo =
+            case msg of
+                NewRepo ->
+                    model
 
-        NewUser user ->
-            ( { model | name = user }, Cmd.none )
+                NewUrl url ->
+                    { model | url = url }
 
-        NewPassword pss ->
-            ( { model | password = pss }, Cmd.none )
+                NewUser user ->
+                    { model | name = user }
 
-        NewCollection col ->
-            ( { model | collection = col }, Cmd.none )
+                NewPassword pss ->
+                    { model | password = pss }
+
+                NewCollection col ->
+                    { model | collection = col }
+    in
+        ( (DataModel inmo bigMoodel.projects bigMoodel.localDatabase), Cmd.none )

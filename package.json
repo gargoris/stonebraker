@@ -9,7 +9,7 @@
     "url": "https://github.com/gargoris/stonebraker"
   },
   "scripts": {
-    "start": "webpack-dev-server --hot --inline --content-base src/",
+    "start": "webpack-dev-server --hot --content-base src/",
     "build": "rimraf dist && webpack",
     "reinstall": "npm i rimraf && rimraf node_modules && npm i && elm package install"
 
