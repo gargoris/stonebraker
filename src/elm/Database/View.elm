@@ -13,6 +13,7 @@ showRepo repo cfg =
         div [ class "container-fluid" ]
             [ h1 [ class "col-md-12" ] [ text "Configured repository" ]
             , div [ class "col-md-12" ] [ p [] [ span [ class "glyphicon glyphicon-link" ] [], text repo.url ] ]
+            , div [ class "col-md-12" ] [ p [] [ span [ class "glyphicon glyphicon-pencil" ] [], text repo.collection ] ]
             , div [ class "col-md-12" ] [ p [ class "glyphicon glyphicon-user" ] [ text repo.name ] ]
             ]
     else
@@ -23,7 +24,7 @@ showRepo repo cfg =
             [ h2 [] [ text "New repo" ]
             , div [ class "input-group clearfix" ]
                 [ div
-                    [ class "input-group" ]
+                    [ class "input-group col-md-9" ]
                     [ span
                         [ class "input-group-addon" ]
                         [ i [ class "glyphicon glyphicon-link" ] [] ]
@@ -38,10 +39,10 @@ showRepo repo cfg =
                         []
                     ]
                 , div
-                    [ class "input-group" ]
+                    [ class "input-group col-md-9" ]
                     [ span
                         [ class "input-group-addon" ]
-                        [ i [ class "glyphicon glyphicon-link" ] [] ]
+                        [ i [ class "glyphicon glyphicon-pencil" ] [] ]
                     , input
                         [ type_ "text"
                         , class "form-control md-col md-col-6"
@@ -53,7 +54,7 @@ showRepo repo cfg =
                         []
                     ]
                 , div
-                    [ class "input-group" ]
+                    [ class "input-group col-md-9" ]
                     [ span
                         [ class "input-group-addon" ]
                         [ i [ class "glyphicon glyphicon-user" ] [] ]
@@ -68,7 +69,7 @@ showRepo repo cfg =
                         []
                     ]
                 , div
-                    [ class "input-group" ]
+                    [ class "input-group col-md-9" ]
                     [ span
                         [ class "input-group-addon" ]
                         [ i [ class "glyphicon glyphicon-asterisk" ] [] ]

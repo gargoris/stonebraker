@@ -4,6 +4,9 @@ module Database.Update exposing (..)
     Update for this module
 -}
 
+import Pouchdb exposing (Pouchdb, auth, ajaxCache, dbOptions, db)
+import Change exposing (..)
+import Replicate exposing (..)
 import Database.Messages exposing (..)
 import Database.Models exposing (..)
 

@@ -9,10 +9,10 @@
     "url": "https://github.com/gargoris/stonebraker"
   },
   "scripts": {
-    "dev": "webpack-dev-server --port 3000",
     "start": "webpack-dev-server --hot --inline --content-base src/",
     "build": "rimraf dist && webpack",
-    "reinstall": "rimraf node_modules && npm uninstall -g elm && npm i -g elm && npm i && elm package install"
+    "reinstall": "npm i rimraf && rimraf node_modules && npm i && elm package install"
+
   },
   "devDependencies": {
     "ace-css": "^1.0.1",

@@ -4,9 +4,10 @@
     "repository": "https://github.com/gargoris/stonebraker.git",
     "license": "GPL",
     "source-directories": [
-        "src/elm/",
-        "src/elm/Database/",
-        "src/elm/Native/"
+        "src/elm",
+        "src/elm/Database",
+        "src/elm/Pouchdb",
+        "src/elm/Pouchdb/Native"
     ],
     "exposed-modules":[],
     "native-modules": true,
