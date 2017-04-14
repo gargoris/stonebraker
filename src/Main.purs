@@ -1,9 +1,9 @@
 module Main where
 
 import Prelude
-import Control.Monad.Eff (Eff)
-import Control.Monad.Eff.Console (CONSOLE, log)
 
-main :: forall e. Eff (console :: CONSOLE | e) Unit
+import Euler (answer)
+import Control.Monad.Eff.Console (log)
+
 main = do
-  log "Hello sailor!"
+  log ("The answer is " <> show answer)
