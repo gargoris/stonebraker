@@ -6,3 +6,7 @@ Tool for ~~TFS~~ project tracking (for an agile ~~TFS~~ based project):
   - List of ~~areas~~projects+sprints.
   - Associate every user story with projects and its state, pre-sprint and post-sprint.
   - List a small timed task management.
+
+## Changes
+  1. From Elm to Purescript: More options and a language more near Haskell with better javascript interop.
+  2. What I want in this project? What I need for the app?
