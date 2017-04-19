@@ -3,6 +3,4 @@
 /.pulp-cache/
 /output/
 /generated-docs/
-/.psc*
-/.purs*
-/.psa*
+/elm-stuff/
