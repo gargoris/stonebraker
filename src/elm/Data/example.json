@@ -1,0 +1,16 @@
+{
+    "name": "Project Name",
+    "technology": null,
+    "sprint": {
+            "path": "path/to/sprint",
+            "initDate": "2017-10-01T00:00:00",
+            "endDate": "2017-10-01T00:00:00"
+        },
+    "sprints":[
+        {
+            "path": "path/to/sprint",
+            "initDate": "2017-10-01T00:00:00",
+            "endDate": "2017-10-01T00:00:00"
+        }
+    ]
+}
