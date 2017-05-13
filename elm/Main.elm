@@ -8,11 +8,6 @@ import App.Section.Root as Root
 import App.Etc.Config exposing (AppConfig)
 
 
--- component import example
-
-import Components.Hello exposing (hello)
-
-
 -- APP
 
 
@@ -74,7 +69,6 @@ view model =
             [ div [ class "col-xs-12" ]
                 [ div [ class "jumbotron" ]
                     [ img [ src "static/img/elm.jpg", style styles.img ] [] -- inline CSS (via var)
-                    , hello model -- ext 'hello' component (takes 'model' as arg)
                     , p [] [ text ("Elm Webpack Starter") ]
                     , button [ class "btn btn-primary btn-lg", onClick Increment ]
                         [ -- click handler
