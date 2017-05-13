@@ -4,7 +4,7 @@
     "repository": "https://github.com/gargoris/stonebreaker.git",
     "license": "GPL-3.0",
     "source-directories": [
-        "src/elm"
+        "elm"
     ],
     "exposed-modules": [],
     "dependencies": {
