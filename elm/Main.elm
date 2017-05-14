@@ -1,5 +1,8 @@
 module Main exposing (..)
 
+{-| Entry point to the application.
+-}
+
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
@@ -12,8 +15,22 @@ import Data.MainData exposing (..)
 -- APP
 
 
-{-| Entry point to the application.
--}
+initLocal : MainData
+initLocal =
+    MainData
+        (Client 0 "" "")
+        (Team)
+        (Sprint)
+        0
+        ""
+        ""
+        (Developer)
+        UserStory
+        (GhostBox ChangeSet)
+        (GhostBox TestCase)
+        (GhostBox TestCase)
+
+
 main : Program AppConfig Root.Model Root.Msg
 main =
     Navigation.programWithFlags Root.locationChanged

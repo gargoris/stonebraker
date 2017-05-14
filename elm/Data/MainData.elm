@@ -1,5 +1,11 @@
 module Data.MainData exposing (..)
 
+{-| Main module for data definition.
+
+Here we have every single bit of structure for data.
+
+-}
+
 import Date exposing (..)
 import Table
 
