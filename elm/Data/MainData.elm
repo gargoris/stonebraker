@@ -111,14 +111,16 @@ type alias MainData =
     , description : String
     , developer : Developer
     , usType : StoryType
-    , listChanges : List ChangeSet
-    , listTests : List TestCase
-    , listProposedTests : List TestCase
+    , listChanges : GhostBox ChangeSet
+    , listTests : GhostBox TestCase
+    , listProposedTests : GhostBox TestCase
     }
 
 
 
-{- A ghost box is a list of something that can be sorted using one o more parts of said something.
+{-
+   A ghost box is a list of something that can be sorted using sortable tables. We
+   also includes here the configuration for the table.
    The code must warranties that the elements of a ghost box always keep sorted using the sorting system.
 -}
 
