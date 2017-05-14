@@ -1,4 +1,4 @@
-module App.Page.Inner.Data exposing (..)
+module App.Data.MainData exposing (..)
 
 
 type alias Id =
