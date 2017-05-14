@@ -1,6 +1,7 @@
 module Data.MainData exposing (..)
 
 import Date exposing (..)
+import Table
 
 
 type alias Id =
@@ -122,12 +123,8 @@ type alias MainData =
 -}
 
 
-type alias GhostBox m n =
-    { elements : List (SortedEntry m n)
-    }
-
-
-type alias SortedEntry m n =
-    { data : m
-    , sortOrigin : n
+type alias GhostBox m =
+    { elements : List m
+    , sortState : Table.State
+    , tableConfig : Table.Config
     }
