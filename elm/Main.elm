@@ -6,6 +6,8 @@ import Html.Events exposing (onClick)
 import Navigation
 import App.Section.Root as Root
 import App.Etc.Config exposing (AppConfig)
+import Data.MainData exposing (..)
+import Data.GhostBoxes exposing (..)
 
 
 -- APP

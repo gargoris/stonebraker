@@ -1,4 +1,6 @@
-module App.Data.MainData exposing (..)
+module Data.MainData exposing (..)
+
+import Date exposing (..)
 
 
 type alias Id =
@@ -121,6 +123,11 @@ type alias MainData =
 
 
 type alias GhostBox m n =
-    { elements : List m
-    , sortingSystem : List n
+    { elements : List (SortedEntry m n)
+    }
+
+
+type alias SortedEntry m n =
+    { data : m
+    , sortOrigin : n
     }
