@@ -4,8 +4,6 @@ module Main exposing (..)
 -}
 
 import Navigation
-import App.Section.Root as Root
-import App.Etc.Config exposing (AppConfig)
 import Data.MainData exposing (..)
 
 
