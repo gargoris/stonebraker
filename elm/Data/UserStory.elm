@@ -1,20 +1,19 @@
-module Data.UserStory exposing (UserStoryData, UserStoryId)
+module Data.UserStory exposing (UserStoryData, UserStoryId, userStoryIdParser, init)
 
-{-| Main module for data definition.
-
-Here we have every single bit of structure for data.
-
+{-| User Story module for data definition.
+Data and more data about user stories.
 -}
 
-import Json.Decode.Pipeline as Pipeline exposing (decode, required)
-import Json.Encode.Extra as EncodeExtra
-import Util exposing ((=>))
+-- import Json.Decode.Pipeline as Pipeline exposing (decode, required)
+-- import Json.Encode.Extra as EncodeExtra
+-- import Util exposing ((=>))
+
 import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Encode exposing (Value)
 import UrlParser
 import Html exposing (Html)
 import Date exposing (..)
-import Table
+import Table exposing (..)
 
 
 type alias Id =
@@ -115,6 +114,11 @@ type alias Developer =
 -}
 
 
+ts : Table.State
+ts =
+    Table.initialSort "Length"
+
+
 type alias UserStoryData =
     { client : Client
     , team : Team
@@ -124,9 +128,10 @@ type alias UserStoryData =
     , description : String
     , developer : Developer
     , usType : StoryType
-    , listChanges : GhostBox ChangeSet
-    , listTests : GhostBox TestCase
-    , listProposedTests : GhostBox TestCase
+    , listChanges : GhostBox ChangeSet (Table.initialSort "Length")
+
+    --, listTests : GhostBox TestCase
+    --, listProposedTests : GhostBox TestCase
     }
 
 
@@ -138,11 +143,24 @@ type alias UserStoryData =
 -}
 
 
-type alias GhostBox m =
-    { elements : List m
-    , sortState : Table.State
-    , tableConfig : Table.Config
-    }
+type alias GhostBox m =    { elements : List m, sortState : Table.State}
+    -- , tableConfig : Table.Config
+
+
+init : UserStoryData
+init =
+    UserStoryData
+        (Client 0 "" "")
+        (Team)
+        (Sprint)
+        0
+        ""
+        ""
+        (Developer)
+        UserStory
+        (GhostBox ChangeSet Table.Tabl)
+        (GhostBox TestCase)
+        (GhostBox TestCase)
 
 
 
@@ -155,27 +173,26 @@ type UserStoryId
     = UserStoryId Int
 
 
-usernameToString : UserStoryId -> String
-usernameToString (UserStoryId id) =
+userStoryIdToString : UserStoryId -> String
+userStoryIdToString (UserStoryId id) =
     toString id
 
 
+userStoryIdParser : UrlParser.Parser (UserStoryId -> a) a
+userStoryIdParser =
+    UrlParser.custom "USERSTORYID" (Result.map UserStoryId << String.toInt)
 
--- usernameParser : UrlParser.Parser (UserStoryId -> a) a
--- usernameParser =
---     UrlParser.custom "USERSTORYID" (Ok << UserStoryId)
 
-
-usernameDecoder : Decoder UserStoryId
-usernameDecoder =
+userStoryIdDecoder : Decoder UserStoryId
+userStoryIdDecoder =
     Decode.map UserStoryId Decode.int
 
 
-encodeUsername : UserStoryId -> Value
-encodeUsername (UserStoryId id) =
+encodeUserStoryId : UserStoryId -> Value
+encodeUserStoryId (UserStoryId id) =
     Encode.int id
 
 
-usernameToHtml : UserStoryId -> Html msg
-usernameToHtml id =
-    usernameToString id |> Html.text
+userStoryIdToHtml : UserStoryId -> Html msg
+userStoryIdToHtml id =
+    userStoryIdToString id |> Html.text

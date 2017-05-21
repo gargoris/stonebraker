@@ -1,10 +1,10 @@
 module Route exposing (Route(..), href, modifyUrl, fromLocation)
 
-import UrlParser as Url exposing (parseHash, s, (</>), string, oneOf, Parser)
+import UrlParser as Url exposing (parseHash, s, (</>), string, oneOf, Parser, int)
 import Navigation exposing (Location)
 import Html exposing (Attribute)
 import Html.Attributes as Attr
-import Data.UserStory exposing (..)
+import Data.UserStory as UserStory exposing (..)
 
 
 -- ROUTING --
@@ -12,14 +12,14 @@ import Data.UserStory exposing (..)
 
 type Route
     = Home
-    | UserStoryEditor
+    | UserStoryEditor UserStory.UserStoryId
 
 
 route : Parser (Route -> a) a
 route =
     oneOf
         [ Url.map Home (s "")
-        , Url.map UserStoryEditor (s "userStoryEditor" </> Data.UserStory.UserStoryId)
+        , Url.map UserStoryEditor (s "userStoryEditor" </> UserStory.userStoryIdParser)
         ]
 
 
@@ -35,7 +35,7 @@ routeToString page =
                 Home ->
                     []
 
-                UserStoryEditor ->
+                UserStoryEditor b ->
                     [ "userStoryEditor" ]
     in
         "#/" ++ (String.join "/" pieces)

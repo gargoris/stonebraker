@@ -3,6 +3,12 @@ module Main exposing (main)
 {-| Entry point to the application.
 -}
 
+import Json.Decode as Decode exposing (Value)
+import Navigation
+import Task
+import Util exposing ((=>))
+import Route exposing (Route)
+import Json.Decode as Decode
 import Navigation exposing (Location)
 import Route exposing (Route)
 
@@ -16,29 +22,10 @@ import Json.Decode as Decode
 import Html exposing (..)
 import Route exposing (Route)
 import Html
-import Data.UserStory exposing (..)
+import Data.UserStory as UserStory exposing (..)
 
 
 -- APP
-
-
-initLocal : MainData
-initLocal =
-    MainData
-        (Client 0 "" "")
-        (Team)
-        (Sprint)
-        0
-        ""
-        ""
-        (Developer)
-        UserStory
-        (GhostBox ChangeSet)
-        (GhostBox TestCase)
-        (GhostBox TestCase)
-
-
-
 -- WARNING: this whole file will become unnecessary and go away in Elm 0.19,
 -- so avoid putting things in here unless there is no alternative!
 
