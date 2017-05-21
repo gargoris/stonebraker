@@ -1,4 +1,4 @@
-module Data.MainData exposing (..)
+module Data.UserStory exposing (UserStoryData, UserStoryId)
 
 {-| Main module for data definition.
 
@@ -6,6 +6,13 @@ Here we have every single bit of structure for data.
 
 -}
 
+import Json.Decode.Pipeline as Pipeline exposing (decode, required)
+import Json.Encode.Extra as EncodeExtra
+import Util exposing ((=>))
+import Json.Decode as Decode exposing (Decoder)
+import Json.Encode as Encode exposing (Value)
+import UrlParser
+import Html exposing (Html)
 import Date exposing (..)
 import Table
 
@@ -19,7 +26,7 @@ type alias Model =
     , clients : List Client
     , teams : List Team
     , developers : List Developer
-    , data : MainData
+    , data : UserStoryData
     }
 
 
@@ -108,11 +115,11 @@ type alias Developer =
 -}
 
 
-type alias MainData =
+type alias UserStoryData =
     { client : Client
     , team : Team
     , sprint : Sprint
-    , id : Int
+    , id : UserStoryId
     , name : String
     , description : String
     , developer : Developer
@@ -136,3 +143,39 @@ type alias GhostBox m =
     , sortState : Table.State
     , tableConfig : Table.Config
     }
+
+
+
+{-
+   UserStory and its parsers
+-}
+
+
+type UserStoryId
+    = UserStoryId Int
+
+
+usernameToString : UserStoryId -> String
+usernameToString (UserStoryId id) =
+    toString id
+
+
+
+-- usernameParser : UrlParser.Parser (UserStoryId -> a) a
+-- usernameParser =
+--     UrlParser.custom "USERSTORYID" (Ok << UserStoryId)
+
+
+usernameDecoder : Decoder UserStoryId
+usernameDecoder =
+    Decode.map UserStoryId Decode.int
+
+
+encodeUsername : UserStoryId -> Value
+encodeUsername (UserStoryId id) =
+    Encode.int id
+
+
+usernameToHtml : UserStoryId -> Html msg
+usernameToHtml id =
+    usernameToString id |> Html.text
