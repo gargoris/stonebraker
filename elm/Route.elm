@@ -11,8 +11,9 @@ import Data.UserStory as UserStory exposing (..)
 
 
 type Route
-    = Home
-    | UserStoryEditor UserStory.UserStoryId
+    = Other
+    | Home
+    | TaskEditor UserStory.UserStoryId
 
 
 route : Parser (Route -> a) a

@@ -8,8 +8,7 @@ import Route exposing (Route)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Route exposing (Route)
-import Data.User as User exposing (User, Username)
-import Data.UserPhoto as UserPhoto exposing (UserPhoto)
+import Data.UserStory as UserStory exposing (..)
 import Html
 import Html.Lazy exposing (lazy2)
 import Views.Spinner exposing (spinner)
@@ -26,11 +25,7 @@ under Other.
 type ActivePage
     = Other
     | Home
-    | Login
-    | Register
-    | Settings
-    | Profile Username
-    | NewArticle
+    | TaskEditor
 
 
 {-| Take a page's Html and frame it with a header and footer.

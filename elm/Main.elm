@@ -11,6 +11,7 @@ import Route exposing (Route)
 import Json.Decode as Decode
 import Navigation exposing (Location)
 import Route exposing (Route)
+import Views.Page as Page exposing (ActivePage)
 
 
 -- import Ports
@@ -31,8 +32,8 @@ import Data.UserStory as UserStory exposing (..)
 
 
 type Page
-    = Blank
-    | NotFound
+    = NotFound
+    | Home
     | TaskEditor UserStoryData
 
 
