@@ -1,4 +1,10 @@
-module Data.UserStory exposing (UserStoryData, UserStoryId, userStoryIdParser, init)
+module Data.UserStory
+    exposing
+        ( UserStoryData
+        , UserStoryId
+        , userStoryIdParser
+        , init
+        )
 
 {-| User Story module for data definition.
 Data and more data about user stories.
@@ -61,7 +67,8 @@ type alias Sprint =
 
 
 type StoryType
-    = UserStory
+    = Empty
+    | UserStory
     | HotFix
     | Improvement
     | UserStoryBug
@@ -89,6 +96,11 @@ type alias ChangeSet =
 -}
 
 
+type TestCaseOrigin
+    = Defined
+    | Proposed
+
+
 type alias TestCase =
     { id : String
     , name : String
@@ -96,6 +108,7 @@ type alias TestCase =
     , passedTest : Bool
     , datePassDev : Date
     , datePassTest : Date
+    , orig : TestCaseOrigin
     }
 
 
@@ -120,18 +133,17 @@ ts =
 
 
 type alias UserStoryData =
-    { client : Client
-    , team : Team
-    , sprint : Sprint
-    , id : UserStoryId
+    { client : Maybe Client
+    , team : Maybe Team
+    , sprint : Maybe Sprint
+    , id : Maybe UserStoryId
     , name : String
     , description : String
-    , developer : Developer
+    , date : Maybe Date
+    , developer : Maybe Developer
     , usType : StoryType
-    , listChanges : GhostBox ChangeSet (Table.initialSort "Length")
-
-    --, listTests : GhostBox TestCase
-    --, listProposedTests : GhostBox TestCase
+    , listChanges : GhostBox ChangeSet
+    , listTests : GhostBox TestCase
     }
 
 
@@ -143,27 +155,14 @@ type alias UserStoryData =
 -}
 
 
-type alias GhostBox m =    { elements : List m, sortState : Table.State}
-    -- , tableConfig : Table.Config
-
-
-init : UserStoryData
-init =
-    UserStoryData
-        (Client 0 "" "")
-        (Team)
-        (Sprint)
-        0
-        ""
-        ""
-        (Developer)
-        UserStory
-        (GhostBox ChangeSet Table.Tabl)
-        (GhostBox TestCase)
-        (GhostBox TestCase)
+type alias GhostBox m =
+    { elements : List m
+    , sortState : Table.State
+    }
 
 
 
+-- , tableConfig : Table.Config
 {-
    UserStory and its parsers
 -}
@@ -173,8 +172,35 @@ type UserStoryId
     = UserStoryId Int
 
 
+init : UserStoryData
+init =
+    UserStoryData
+        --client
+        Nothing
+        --team
+        Nothing
+        --sprint
+        Nothing
+        --id
+        Nothing
+        --name
+        ""
+        --description
+        ""
+        --date
+        Nothing
+        --developer
+        Nothing
+        --userStoryType
+        Empty
+        --GhostBox Changesets
+        (GhostBox [] (Table.initialSort "Id"))
+        --GhostBox TestCases
+        (GhostBox [] (Table.initialSort "Id"))
+
+
 userStoryIdToString : UserStoryId -> String
-userStoryIdToString (UserStoryId id) =
+userStoryIdToString id =
     toString id
 
 
@@ -189,8 +215,8 @@ userStoryIdDecoder =
 
 
 encodeUserStoryId : UserStoryId -> Value
-encodeUserStoryId (UserStoryId id) =
-    Encode.int id
+encodeUserStoryId (UserStoryId m) =
+    Encode.int m
 
 
 userStoryIdToHtml : UserStoryId -> Html msg
