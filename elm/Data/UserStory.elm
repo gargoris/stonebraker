@@ -21,21 +21,8 @@ import Date exposing (..)
 import Table exposing (..)
 
 
-type Msg
-    = None
-
-
 type alias Id =
     Int
-
-
-type alias Model =
-    { ownLogo : String
-    , clients : List Client
-    , teams : List Team
-    , developers : List Developer
-    , data : UserStoryData
-    }
 
 
 type alias Client =
