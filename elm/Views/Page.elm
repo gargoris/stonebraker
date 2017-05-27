@@ -37,17 +37,17 @@ isLoading is for determining whether we should show a loading spinner
 in the header. (This comes up during slow page transitions.)
 
 -}
-frame : Bool -> Maybe User -> ActivePage -> Html msg -> Html msg
-frame isLoading user page content =
+frame : Bool -> ActivePage -> Html msg -> Html msg
+frame isLoading page content =
     div [ class "page-frame" ]
-        [ viewHeader page user isLoading
+        [ viewHeader page isLoading
         , content
         , viewFooter
         ]
 
 
-viewHeader : ActivePage -> Maybe User -> Bool -> Html msg
-viewHeader page user isLoading =
+viewHeader : ActivePage -> Bool -> Html msg
+viewHeader page isLoading =
     nav [ class "navbar navbar-light" ]
         [ div [ class "container" ]
             [ a [ class "navbar-brand", Route.href Route.Home ]
@@ -55,30 +55,9 @@ viewHeader page user isLoading =
             , ul [ class "nav navbar-nav pull-xs-right" ] <|
                 lazy2 Util.viewIf isLoading spinner
                     :: (navbarLink (page == Home) Route.Home [ text "Home" ])
-                    :: viewSignIn page user
+                    :: []
             ]
         ]
-
-
-viewSignIn : ActivePage -> Maybe User -> List (Html msg)
-viewSignIn page user =
-    case user of
-        Nothing ->
-            [ navbarLink (page == Login) Route.Login [ text "Sign in" ]
-            , navbarLink (page == Register) Route.Register [ text "Sign up" ]
-            ]
-
-        Just user ->
-            [ navbarLink (page == NewArticle) Route.NewArticle [ i [ class "ion-compose" ] [], text " New Post" ]
-            , navbarLink (page == Settings) Route.Settings [ i [ class "ion-gear-a" ] [], text " Settings" ]
-            , navbarLink
-                (page == Profile user.username)
-                (Route.Profile user.username)
-                [ img [ class "user-pic", UserPhoto.src user.image ] []
-                , User.usernameToHtml user.username
-                ]
-            , navbarLink False Route.Logout [ text "Sign out" ]
-            ]
 
 
 viewFooter : Html msg

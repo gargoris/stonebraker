@@ -3,7 +3,6 @@ module Data.UserStory
         ( UserStoryData
         , UserStoryId
         , userStoryIdParser
-        , init
         )
 
 {-| User Story module for data definition.
@@ -20,6 +19,10 @@ import UrlParser
 import Html exposing (Html)
 import Date exposing (..)
 import Table exposing (..)
+
+
+type Msg
+    = None
 
 
 type alias Id =
