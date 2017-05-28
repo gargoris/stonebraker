@@ -3,30 +3,22 @@ module Main exposing (main)
 {-| Entry point to the application.
 -}
 
+import Html exposing (..)
 import Json.Decode as Decode exposing (Value)
-import Navigation
-import Task
-import Util exposing ((=>))
-import Route exposing (Route)
 import Json.Decode as Decode
-import Navigation exposing (Location)
+import Navigation
 import Route exposing (Route)
-import Views.Page as Page exposing (ActivePage)
 import Page.Errored as Errored exposing (PageLoadError)
+import Page.NotFound as NotFound
 import Page.Home as Home
-import Page.UserStoryEditor as UserStoryEditor
+import Page.UserStoryEditor as UsEd
+import Views.Page as VPage exposing (ActivePage)
 
 
 -- import Ports
 
 import Task
 import Util exposing ((=>))
-import Route exposing (Route)
-import Json.Decode as Decode
-import Html exposing (..)
-import Route exposing (Route)
-import Html
-import Data.UserStory as UserStory exposing (..)
 
 
 -- APP
@@ -38,7 +30,7 @@ type Page
     = NotFound
     | Errored PageLoadError
     | Home Home.Model
-    | UserStoryEditor UserStoryId
+    | UserStoryEditor UsEd.Model
 
 
 type PageState
@@ -56,7 +48,7 @@ type Msg
     = SetRoute (Maybe Route)
     | HomeLoaded (Result PageLoadError Home.Model)
     | HomeMsg Home.Msg
-    | UserStoryEditorMsg UserStoryEditor.Msg
+    | UserStoryEditorMsg UsEd.Msg
 
 
 pageErrored : Model -> ActivePage -> String -> ( Model, Cmd msg )
@@ -95,17 +87,22 @@ setRoute maybeRoute model =
             Just (Route.UserStoryEditor storyId) ->
                 { model | pageState = Loaded NotFound } => Cmd.none
 
-            -- { model | pageState = Loaded (Editor Nothing Editor.initNew) } => Cmd.none
             Just Route.Home ->
-                transition HomeLoaded (Home.init model.session)
+                transition HomeLoaded (Home.init)
+
+
+
+-- { model | pageState = Loaded (Editor Nothing Editor.initNew) } => Cmd.none
+-- Just Route.Home ->
+--     transition HomeLoaded (Home.init model.session)
 
 
 initialPage : Page
 initialPage =
-    Home
+    UserStoryEditor UsEd.init
 
 
-init : Value -> Location -> ( Model, Cmd Msg )
+init : Value -> Navigation.Location -> ( Model, Cmd Msg )
 init val location =
     setRoute (Route.fromLocation location)
         { pageState = Loaded initialPage
@@ -120,9 +117,6 @@ update msg model =
 updatePage : Page -> Msg -> Model -> ( Model, Cmd Msg )
 updatePage page msg model =
     let
-        session =
-            model.session
-
         toPage toModel toMsg subUpdate subMsg subModel =
             let
                 ( newModel, newCmd ) =
@@ -144,26 +138,10 @@ updatePage page msg model =
                 { model | pageState = Loaded (Errored error) } => Cmd.none
 
             ( HomeMsg subMsg, Home subModel ) ->
-                toPage Home HomeMsg (Home.update session) subMsg subModel
+                toPage Home HomeMsg (Home.update) subMsg subModel
 
             ( UserStoryEditorMsg subMsg, UserStoryEditor subModel ) ->
-                toPage UserStoryEditor UserStoryEditorMsg (UserStoryEditor.update) subMsg subModel
-
-            ( ArticleMsg subMsg, Article subModel ) ->
-                toPage Article ArticleMsg (Article.update model.session) subMsg subModel
-
-            ( EditorMsg subMsg, Editor slug subModel ) ->
-                case model.session.user of
-                    Nothing ->
-                        if slug == Nothing then
-                            errored Page.NewArticle
-                                "You must be signed in to post articles."
-                        else
-                            errored Page.Other
-                                "You must be signed in to edit articles."
-
-                    Just user ->
-                        toPage (Editor slug) EditorMsg (Editor.update user) subMsg subModel
+                toPage UserStoryEditor UserStoryEditorMsg (UsEd.update) subMsg subModel
 
             ( _, NotFound ) ->
                 -- Disregard incoming messages when we're on the
@@ -181,5 +159,45 @@ main =
         { init = init
         , view = view
         , update = update
-        , subscriptions = subscriptions
+        , subscriptions = (\t -> Sub.none)
         }
+
+
+
+-- VIEW --
+
+
+view : Model -> Html Msg
+view model =
+    case model.pageState of
+        Loaded page ->
+            viewPage False page
+
+        TransitioningFrom page ->
+            viewPage True page
+
+
+viewPage : Bool -> Page -> Html Msg
+viewPage isLoading page =
+    let
+        frame =
+            VPage.frame isLoading
+    in
+        case page of
+            NotFound ->
+                NotFound.view
+                    |> frame VPage.Other
+
+            Errored subModel ->
+                Errored.view subModel
+                    |> frame VPage.Other
+
+            Home subModel ->
+                Home.view subModel
+                    |> frame VPage.Home
+                    |> Html.map HomeMsg
+
+            UserStoryEditor subModel ->
+                UsEd.view subModel
+                    |> frame VPage.UserStoryEditor
+                    |> Html.map UserStoryEditorMsg

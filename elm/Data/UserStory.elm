@@ -2,7 +2,13 @@ module Data.UserStory
     exposing
         ( UserStoryData
         , UserStoryId
+        , TestCaseId
+        , ChangeSetId
+        , Client
+        , Team
+        , Developer
         , userStoryIdParser
+        , init
         )
 
 {-| User Story module for data definition.
@@ -56,9 +62,9 @@ type alias Sprint =
 {- What's the story, morning glory? -}
 
 
-type StoryType
-    = Empty
-    | UserStory
+type UserStoryType
+    = NoInit
+    | Requirement
     | HotFix
     | Improvement
     | UserStoryBug
@@ -70,8 +76,12 @@ type StoryType
 -}
 
 
+type alias ChangeSetId =
+    String
+
+
 type alias ChangeSet =
-    { id : String
+    { id : ChangeSetId
     , author : String
     , linesCoverBefore : Int
     , linesCoverAfter : Int
@@ -91,8 +101,12 @@ type TestCaseOrigin
     | Proposed
 
 
+type alias TestCaseId =
+    String
+
+
 type alias TestCase =
-    { id : String
+    { id : TestCaseId
     , name : String
     , passedDev : Bool
     , passedTest : Bool
@@ -131,7 +145,7 @@ type alias UserStoryData =
     , description : String
     , date : Maybe Date
     , developer : Maybe Developer
-    , usType : StoryType
+    , usType : UserStoryType
     , listChanges : GhostBox ChangeSet
     , listTests : GhostBox TestCase
     }
@@ -162,33 +176,6 @@ type UserStoryId
     = UserStoryId Int
 
 
-init : UserStoryData
-init =
-    UserStoryData
-        --client
-        Nothing
-        --team
-        Nothing
-        --sprint
-        Nothing
-        --id
-        Nothing
-        --name
-        ""
-        --description
-        ""
-        --date
-        Nothing
-        --developer
-        Nothing
-        --userStoryType
-        Empty
-        --GhostBox Changesets
-        (GhostBox [] (Table.initialSort "Id"))
-        --GhostBox TestCases
-        (GhostBox [] (Table.initialSort "Id"))
-
-
 userStoryIdToString : UserStoryId -> String
 userStoryIdToString id =
     toString id
@@ -212,3 +199,30 @@ encodeUserStoryId (UserStoryId m) =
 userStoryIdToHtml : UserStoryId -> Html msg
 userStoryIdToHtml id =
     userStoryIdToString id |> Html.text
+
+
+init : UserStoryData
+init =
+    UserStoryData
+        --client
+        Nothing
+        --team
+        Nothing
+        --sprint
+        Nothing
+        --id
+        Nothing
+        --name
+        ""
+        --description
+        ""
+        --date
+        Nothing
+        --developer
+        Nothing
+        --userStoryType
+        NoInit
+        --GhostBox Changesets
+        (GhostBox [] (Table.initialSort "Id"))
+        --GhostBox TestCases
+        (GhostBox [] (Table.initialSort "Id"))

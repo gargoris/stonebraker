@@ -1,35 +1,17 @@
-module App.Page.NotFound
-    exposing
-        ( init
-        , view
-        , Model
-        , Msg
-        )
+module Page.NotFound exposing (view)
 
-import Html exposing (Html, section, h1, p, text)
-import Navigation exposing (Location, modifyUrl)
+import Html exposing (Html, main_, h1, div, img, text)
+import Html.Attributes exposing (class, tabindex, id, src, alt)
+import Views.Assets as Assets
 
 
-type Model
-    = Model
+-- VIEW --
 
 
-type Msg
-    = Msg
-
-
-init : Location -> ( Model, Cmd Msg )
-init location =
-    ( Model
-    , Cmd.none
-    )
-
-
-view : Model -> Html Msg
-view model =
-    section []
-        [ h1 []
-            [ text "Not Found" ]
-        , p []
-            [ text "Sorry, nothing here." ]
+view : Html msg
+view =
+    main_ [ id "content", class "container", tabindex -1 ]
+        [ h1 [] [ text "Not Found" ]
+        , div [ class "row" ]
+            [ img [ Assets.src Assets.error, alt "giant laser walrus wreaking havoc" ] [] ]
         ]

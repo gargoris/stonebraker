@@ -4,12 +4,9 @@ module Views.Page exposing (frame, ActivePage(..), bodyId)
 -}
 
 import Route exposing (Route)
-import Route exposing (Route)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Route exposing (Route)
-import Data.UserStory as UserStory exposing (..)
-import Html
 import Html.Lazy exposing (lazy2)
 import Views.Spinner exposing (spinner)
 import Util exposing ((=>))
@@ -25,7 +22,7 @@ under Other.
 type ActivePage
     = Other
     | Home
-    | TaskEditor
+    | UserStoryEditor
 
 
 {-| Take a page's Html and frame it with a header and footer.
