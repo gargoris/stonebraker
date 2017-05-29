@@ -1,8 +1,8 @@
 # Stonebreaker
 
-||A worker||
-|-|:-:|-|
 ||![Stonebreaker](media/the-stone-breaker-1849.jpg)||
+|-|:-:|-|
+||A worker||
 
 Tool for project tracking (for an agile based projects):
   - Forms for data per user story.
