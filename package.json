@@ -10,7 +10,7 @@
     },
     "scripts": {
         "start": "webpack-dev-server --hot --inline",
-        "build": "webpack -p --bail",
+        "build": "webpack -p --bail --verbose",
         "test": "run-p 'test:*'",
         "test:elm": "elm test --warn --compiler node_modules/.bin/elm-make elm/TestRunner.elm",
         "test:js": "cross-env NODE_ENV=test karma start --single-run",
@@ -81,5 +81,8 @@
         "url-loader": "^0.5.8",
         "webpack": "^2.5.1",
         "webpack-dev-server": "^2.4.5"
+    },
+    "dependencies": {
+        "npm": "^5.0.3"
     }
 }

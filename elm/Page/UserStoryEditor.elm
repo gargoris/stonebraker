@@ -10,11 +10,8 @@ module Page.UserStoryEditor
 
 import Html exposing (..)
 import Html.Attributes exposing (class, href, id, placeholder, attribute, disabled)
-import Html.Events exposing (onInput, onClick, onSubmit)
 import Data.UserStory as UserStory exposing (..)
-import Table
 import Task exposing (Task)
-import Util exposing ((=>), pair, viewIf)
 import Page.Errored as Errored exposing (PageLoadError, pageLoadError)
 
 
@@ -31,19 +28,19 @@ type alias Model =
 -- Init empty --
 
 
-init : Model
+init : Task PageLoadError Model
 init =
+    Task.succeed empty
+
+
+empty : Model
+empty =
     Model
         "NoLogo.gif"
         []
         []
         []
         UserStory.init
-
-
-empty : Task PageLoadError Model
-empty =
-    Task.succeed init
 
 
 

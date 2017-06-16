@@ -47,6 +47,7 @@ type alias Model =
 type Msg
     = SetRoute (Maybe Route)
     | HomeLoaded (Result PageLoadError Home.Model)
+    | UserStoryEditorLoaded (Result PageLoadError UsEd.Model)
     | HomeMsg Home.Msg
     | UserStoryEditorMsg UsEd.Msg
 
@@ -85,7 +86,7 @@ setRoute maybeRoute model =
                 { model | pageState = Loaded NotFound } => Cmd.none
 
             Just (Route.UserStoryEditor storyId) ->
-                { model | pageState = Loaded NotFound } => Cmd.none
+                transition UserStoryEditorLoaded (UsEd.init)
 
             Just Route.Home ->
                 transition HomeLoaded (Home.init)
@@ -99,7 +100,7 @@ setRoute maybeRoute model =
 
 initialPage : Page
 initialPage =
-    UserStoryEditor UsEd.init
+    UserStoryEditor UsEd.empty
 
 
 init : Value -> Navigation.Location -> ( Model, Cmd Msg )
