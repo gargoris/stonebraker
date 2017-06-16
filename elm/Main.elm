@@ -138,6 +138,12 @@ updatePage page msg model =
             ( HomeLoaded (Err error), _ ) ->
                 { model | pageState = Loaded (Errored error) } => Cmd.none
 
+            ( UserStoryEditorLoaded (Ok subModel), _ ) ->
+                { model | pageState = Loaded (UserStoryEditor subModel) } => Cmd.none
+
+            ( UserStoryEditorLoaded (Err error), _ ) ->
+                { model | pageState = Loaded (Errored error) } => Cmd.none
+
             ( HomeMsg subMsg, Home subModel ) ->
                 toPage Home HomeMsg (Home.update) subMsg subModel
 
