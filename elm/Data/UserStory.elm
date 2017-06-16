@@ -9,6 +9,7 @@ module Data.UserStory
         , Developer
         , userStoryIdParser
         , init
+        , initEmpty
         )
 
 {-| User Story module for data definition.
@@ -201,8 +202,35 @@ userStoryIdToHtml id =
     userStoryIdToString id |> Html.text
 
 
-init : UserStoryData
-init =
+init : UserStoryId -> UserStoryData
+init d =
+    UserStoryData
+        --client
+        Nothing
+        --team
+        Nothing
+        --sprint
+        Nothing
+        --id
+        Nothing
+        --name
+        ""
+        --description
+        ""
+        --date
+        Nothing
+        --developer
+        Nothing
+        --userStoryType
+        NoInit
+        --GhostBox Changesets
+        (GhostBox [] (Table.initialSort "Id"))
+        --GhostBox TestCases
+        (GhostBox [] (Table.initialSort "Id"))
+
+
+initEmpty : UserStoryData
+initEmpty =
     UserStoryData
         --client
         Nothing

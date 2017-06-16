@@ -9,7 +9,7 @@ module Page.UserStoryEditor
         )
 
 import Html exposing (..)
-import Html.Attributes exposing (class, href, id, placeholder, attribute, disabled)
+import Html.Attributes exposing (..)
 import Data.UserStory as UserStory exposing (..)
 import Task exposing (Task)
 import Page.Errored as Errored exposing (PageLoadError, pageLoadError)
@@ -28,19 +28,32 @@ type alias Model =
 -- Init empty --
 
 
-init : Task PageLoadError Model
-init =
-    Task.succeed empty
+init : Maybe UserStoryId -> Task PageLoadError Model
+init m =
+    Task.succeed (empty m)
 
 
-empty : Model
-empty =
-    Model
-        "NoLogo.gif"
-        []
-        []
-        []
-        UserStory.init
+empty : Maybe UserStoryId -> Model
+empty id =
+    let
+        op =
+            case id of
+                Just m ->
+                    UserStory.init m
+
+                Nothing ->
+                    UserStory.initEmpty
+    in
+        Model
+            "NoLogo.gif"
+            -- Recover list of clients
+            []
+            -- Recover list of teams
+            []
+            -- Recover list of developers
+            []
+            -- Load the data.
+            op
 
 
 
@@ -78,7 +91,7 @@ View Functions
 
 viewLogo : Model -> Html Msg
 viewLogo m =
-    div [] []
+    div [] [ img [ width 80, src ("imgs/logos/" ++ m.ownLogo) ] [] ]
 
 
 viewMainData : Model -> Html Msg

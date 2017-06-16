@@ -86,7 +86,7 @@ setRoute maybeRoute model =
                 { model | pageState = Loaded NotFound } => Cmd.none
 
             Just (Route.UserStoryEditor storyId) ->
-                transition UserStoryEditorLoaded (UsEd.init)
+                transition UserStoryEditorLoaded (UsEd.init (Just storyId))
 
             Just Route.Home ->
                 transition HomeLoaded (Home.init)
@@ -100,7 +100,7 @@ setRoute maybeRoute model =
 
 initialPage : Page
 initialPage =
-    UserStoryEditor UsEd.empty
+    UserStoryEditor (UsEd.empty Nothing)
 
 
 init : Value -> Navigation.Location -> ( Model, Cmd Msg )
