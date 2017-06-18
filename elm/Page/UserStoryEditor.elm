@@ -16,12 +16,7 @@ import Page.Errored as Errored exposing (PageLoadError, pageLoadError)
 
 
 type alias Model =
-    { ownLogo : String
-    , clients : List Client
-    , teams : List Team
-    , developers : List Developer
-    , data : UserStoryData
-    }
+    UserStoryData
 
 
 
@@ -35,25 +30,12 @@ init m =
 
 empty : Maybe UserStoryId -> Model
 empty id =
-    let
-        op =
-            case id of
-                Just m ->
-                    UserStory.init m
+    case id of
+        Just m ->
+            UserStory.init m
 
-                Nothing ->
-                    UserStory.initEmpty
-    in
-        Model
-            "NoLogo.gif"
-            -- Recover list of clients
-            []
-            -- Recover list of teams
-            []
-            -- Recover list of developers
-            []
-            -- Load the data.
-            op
+        Nothing ->
+            UserStory.initEmpty
 
 
 
@@ -63,8 +45,7 @@ empty id =
 view : Model -> Html Msg
 view model =
     div [ class "userStory-page" ]
-        [ viewLogo model
-        , div [ class "userStory-data" ]
+        [ div [ class "userStory-data" ]
             [ div [ class "userStory-head" ]
                 -- User Story data: id, name and description
                 [ viewMainData model ]
@@ -87,11 +68,6 @@ view model =
 {--
 View Functions
 -}
-
-
-viewLogo : Model -> Html Msg
-viewLogo m =
-    div [] [ img [ width 80, src ("imgs/logos/" ++ m.ownLogo) ] [] ]
 
 
 viewMainData : Model -> Html Msg

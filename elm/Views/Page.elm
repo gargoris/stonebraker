@@ -48,7 +48,7 @@ viewHeader page isLoading =
     nav [ class "navbar navbar-light" ]
         [ div [ class "container" ]
             [ a [ class "navbar-brand", Route.href Route.Home ]
-                [ text "conduit" ]
+                [ text "stonebreaker" ]
             , ul [ class "nav navbar-nav pull-xs-right" ] <|
                 lazy2 Util.viewIf isLoading spinner
                     :: (navbarLink (page == Home) Route.Home [ text "Home" ])
@@ -61,11 +61,11 @@ viewFooter : Html msg
 viewFooter =
     footer []
         [ div [ class "container" ]
-            [ a [ class "logo-font", href "/" ] [ text "conduit" ]
+            [ a [ class "logo-font", href "/" ] [ text "stonebreaker" ]
             , span [ class "attribution" ]
-                [ text "An interactive learning project from "
-                , a [ href "https://thinkster.io" ] [ text "Thinkster" ]
-                , text ". Code & design licensed under MIT."
+                [ text "copyright 2017 by gargoris "
+                , a [ href "https://github.com/gargoris/stonebreaker", target "_blank" ] [ text "Github repo" ]
+                , text ". Code & design licensed under LGPL v3."
                 ]
             ]
         ]

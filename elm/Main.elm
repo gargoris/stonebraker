@@ -39,8 +39,7 @@ type PageState
 
 
 type alias Model =
-    { --session : Session,
-      pageState : PageState
+    { pageState : PageState
     }
 
 
@@ -106,8 +105,11 @@ initialPage =
 init : Value -> Navigation.Location -> ( Model, Cmd Msg )
 init val location =
     setRoute (Route.fromLocation location)
-        { pageState = Loaded initialPage
-        }
+        (Model
+            (Loaded
+                initialPage
+            )
+        )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
