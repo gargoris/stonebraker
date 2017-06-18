@@ -27,7 +27,7 @@ init =
         (Model
             "NoLogo.gif"
             -- Recover list of clients
-            []
+            [ (Client 1 "Randstad" "lr.gif") ]
             -- Recover list of teams
             []
             -- Recover list of developers
@@ -46,7 +46,7 @@ view model =
         , viewLogo model
         , div [ class "container page" ]
             [ div [ class "row" ]
-                []
+                [ viewClients model.clients ]
             ]
         ]
 
@@ -64,6 +64,23 @@ viewBanner =
             , p [] [ text "you work, I'll take notes" ]
             ]
         ]
+
+
+viewClients : List Client -> Html Msg
+viewClients m =
+    div [ class "input-l" ]
+        [ label [ for "client" ] [ text "Client" ]
+        , select [ name "client", class "form-control" ]
+            (List.map
+                viewClient
+                m
+            )
+        ]
+
+
+viewClient : Client -> Html Msg
+viewClient c =
+    option [ value (toString c.idClient) ] [ text c.name ]
 
 
 
